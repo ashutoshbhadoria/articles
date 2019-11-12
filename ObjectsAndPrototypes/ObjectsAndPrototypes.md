@@ -79,7 +79,7 @@ var beer = new Beer();
   Beer {name: "Guinness", style: "Stout"}
 ```
 
-JavaScript provides a `new` keyword which followed by a function (constructor function) helps we create objects with the desired properties (and methods), without losing the dynamic nature of JavaScript objects. The constructor function is like any other JavaScript function with the first letter of it's name capitalized as a convention.
+JavaScript provides a `new` keyword which followed by a function (constructor function) helps us create objects with the desired properties (and methods), without losing the dynamic nature of JavaScript objects. The constructor function is like any other JavaScript function with the first letter of it's name capitalized as a convention.
 
 Let's just take a look at our new `Beer` object. There you can see that our lowercase `beer` variable is now a pointer to a `Beer` object, and that beer is named Guinness and is a Stout. So how exactly did that work? To really understand what is happening here, it's important that you understand what the keyword `this` is in JavaScript. The `this` keyword refers to an object. That object is whatever object is executing the current bit of code. By default, that is the `global` object. In a web browser, that is the `window` object. So when we executed this `Beer` function, what was `this` referring to? It was referring to a new empty object. That's what the `new` keyword does for us. It creates a new empty JavaScript object, sets the context of `this` to that new object, and then calls the Cat function. (If it doesn't make sense, please re-read this paragraph)
 
