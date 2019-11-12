@@ -49,7 +49,7 @@ Let's execute this method right away,
   Be happy, Good things come to those who wait.
 ```
 
-Also, deleting properties (or methods) from your object is also very simple with the use of `delete` key word, let's have a look at it in the code
+Also, deleting properties (or methods) from your object is also very simple with the use of `delete` keyword, let's have a look at it in the code
 
 ```js
 var beer = {
@@ -62,8 +62,15 @@ var beer = {
 };
 
 delete beer.color;
-delete.makePersonParty;
+delete beer.makePersonParty;
 ```
+
+``` js
+> console.log(beer);
+  {name: "Guinness", style: "Stout"}
+```
+
+So, we can see the property `color` and the method `makePersonParty` are successfully deleted from our object `beer`.
 
 ## Wait, where are the Classes ?
 
