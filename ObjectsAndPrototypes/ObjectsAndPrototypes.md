@@ -177,3 +177,172 @@ var guinness = Object.create(Object.prototype, {
 ```
 
 Now all these properties while creating an object using `Object.create()` may seem very weird because most of the times we do not interact with them and they are oblivious to us, because the other ways of creating objects just abstracts us from that detail. But we'll have a look at them later.
+
+## Object Properties
+
+We have already seen creating objects with properties in the previous section, but there's a lot to object properties than it meets thee eye. So far we have discussed accessing object properties with the `dot` notation, but there is an alternative and in some cases an essential construct to access object properties, the `bracket` notation.
+
+```js
+var beer = {
+  name: 'Miller',
+  style: 'American Pilsner'
+}
+```
+
+```js
+> console.log(beer.name) // accessing properties using dot notation
+  Miller
+
+> console.log(beer['name']) // accessing properties using bracket notation
+  Miller
+```
+
+Just place the property name as a string (notice the single quotes) inside a bracket and we have an alternate syntax to aaccess object's properties.
+
+What if we name our properties (or a data fetched as JSON from some source) which are not valid identifier names, in that case the dot notation will not work and we will have to use the bracket notation
+
+```js
+var beer = {
+  'beer name': 'Kingfisher' // property name is invalid identifier
+}
+```
+
+```js
+> console.log(beer['beer name'])
+  Kingfisher
+```
+
+Bracket notation is extremly useful when we want to access a property through a variable as a key.
+
+```js
+var beerStyleKey = 'style';
+
+var beer = {
+  name: 'Hoegarden',
+  style: 'Belgian Wheat Beer'
+}
+```
+
+```js
+> console.log(beer[beerStyleKey]) // accessing the property
+                                  // using variable as a key
+  Belgian Wheat Beer
+```
+
+### Property Descriptors
+
+Let us take a closer look at properties, they are more than a key-value pair, using `Object.getOwnPropertyDescriptor()` which returns a property descriptor for an own property. (we will look at the difference between an own property and a prototype property later). 
+
+```js
+var beer = {
+  name: 'Guinness',
+  style: 'Stout'
+}
+```
+
+```js
+> Object.getOwnPropertyDescriptor(beer, 'name');
+  {value: "Guinness", writable: true, enumerable: true, configurable: true}
+```
+
+Now, in the output, we can see in addition to the property haaving a value, it also has writable, enumerable and configurable attributes.
+
+### Writable Attribute
+
+The writable attribute controls wether we can change the value of the property from the initial value.
+
+For demonstrating this behaviour we are going to use the JavaScript [strict mode](https://dev.to/ashubhadoria7/hey-alice-what-s-the-big-deal-about-the-javascript-s-strict-mode-24bb), and we are going to use `Object.defineProperty()` whicj defines a new property directly on an object, or modifies an existing property on an object, and returns the object.
+
+Consider our object `beer`
+
+```js
+'use strict';
+
+var beer  = {
+  name: 'Guinness',
+  style: 'Stout'
+};
+
+// set the writable attribute for property style to false.
+Object.defineProperty(beer, 'style', {writable: false});
+
+```
+
+```js
+// try to change the style value for beer
+> beer.style = 'Belgian Blond Beer';
+  Uncaught TypeError: Cannot assign to read only property 'style' of object '#<Object>'
+```
+
+As expected trying to reassign a new value to `style` property results in a `TypeError` being thrown.
+
+A word of caution the key concept here is we will not bee able to REDECLARE a property. So if in case, the property is an object, we can still modify that object, but we cannot set it to other object.
+
+```js
+'use strict';
+
+var beer = {
+  name: 'Simba',
+  placeOfOrigin: {
+    city: 'Bangalore',
+    country: 'India'
+  }
+}
+
+Object.defineProperty(beer, 'placeOfOrigin', {writable: false});
+
+beer.placeOfOrigin.city = 'Mumbai'; // works fine
+beer.placeOfOrigin = {city: 'Moscow', country: 'Russia'}; // throws TypeError
+```
+
+### Enumerable Attribute
+
+Whenever we want to list or print all the properties of an object we just throw in a good ol' `for...in` loop. y default, properties on an object are enumerable, meaning we can loop over them using a `for…in` loop. But we can change that. Let's set `enumerable` to `false` for the style property.
+
+```js
+'use strict';
+
+var beer  = {
+  name: 'Guinness',
+  style: 'Stout'
+};
+
+Object.defineProperty(beer, 'style', {enumerable: false});
+
+for (var key in beer) {
+  console.log(`${key} -> ${beer[key]}`);
+}
+```
+```js
+// output
+name -> Guinness
+```
+
+Well looks like our `style` property wasn't _enumerated_ (no pun intended).
+
+Setting the `enumerable` attribute to false also has another important implication, the JSON serialization of the object. Let's have a look what happens to our `beer` object which has `enumerable` attribute for `style` set to false.
+
+```js
+> JSON.stringify(beer);
+  "{"name":"Guinness"}"
+```
+
+We didn't get the `style` property in our _stringified_ object.
+
+A convenient way to get all the keys (or attributes) of an object is to use the `Object.keys()` method, let's see what if we set `enumerable` attribute to false for a particular key.
+
+```js
+> Object.keys(beer);
+  ["name"]
+```
+
+Again the only key showing up is the `name` key and not the `style` key.
+
+Although we cannot _enumerate_ the `style` key in the `for...in` loop, or JSON _stringification_, or in `Object.keys()`, we still have it present on the object. Let's print out it's value.
+
+```js
+> console.log(beer.style);
+  Stout
+```
+
+### 
