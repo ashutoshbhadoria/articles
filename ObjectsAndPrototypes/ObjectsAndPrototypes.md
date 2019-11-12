@@ -49,6 +49,22 @@ Let's execute this method right away,
   Be happy, Good things come to those who wait.
 ```
 
+Also, deleting properties (or methods) from your object is also very simple with the use of `delete` key word, let's have a look at it in the code
+
+```js
+var beer = {
+  name: 'Guinness',
+  style: 'Stout',
+  color: 'Black',
+  makePersonParty: function() {
+    console.log('Partyyyy!');
+  }
+};
+
+delete beer.color;
+delete.makePersonParty;
+```
+
 ## Wait, where are the Classes ?
 
 If you are coming from a background in statically typed languages (like I did), it's easy to get bamboozled here, what did I just do?
@@ -152,3 +168,5 @@ var guinness = Object.create(Object.prototype, {
 > console.log(miller);
   Beer {name: "Miller", style: "American Pilsner"}
 ```
+
+Now all these properties while creating an object using `Object.create()` may seem very weird because most of the times we do not interact with them and they are oblivious to us, because the other ways of creating objects just abstracts us from that detail. But we'll have a look at them later.
