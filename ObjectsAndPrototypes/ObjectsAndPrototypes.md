@@ -447,3 +447,45 @@ Let's test this out,
 ```
 
 It seems to work! We just set the `brand` and `type` property using a single assignment to `fullBeerName`.
+
+## Prototypes
+
+Before we define and discuss prototypes let's consider an example, suppose we want to have a property which could give us last element of the array we defined. But as JavaScript is a dynamic language we can add a new property to achieve this.
+
+```js
+var beers = ['Heineken', 'Miller', 'Tuborg'];
+
+Object.defineProperty(beers, 'last', {
+  get: function() {
+    return this[this.length - 1];
+  }
+});
+```
+
+```js
+> console.log(beers.last);
+  Tuborg
+```
+
+However, the problem in this approach is, if we decide to define a new array we will need to define the `last` attribute again for that particular array. This approach is not extensible for all arrays.
+
+If we define our `last` method on Array's prototype instead of the `beers` array we declared we will be able to achieve the expected behaviour.
+
+```js
+Object.defineProperty(Array.prototype, 'last', {
+  get: function () {
+    return this[this.length - 1];
+  }
+});
+```
+```js
+> var beers = ['Heineken', 'Miller', 'Tuborg'];
+> console.log(beers.last);
+  Tuborg
+> var gins = ['Bombay Sapphire', 'Gordon', 'Beefeater'];
+> console.log(gins.last);
+  Beefeater
+```
+
+Awesome.
+
