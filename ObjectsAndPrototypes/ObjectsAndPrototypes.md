@@ -345,4 +345,105 @@ Although we cannot _enumerate_ the `style` key in the `for...in` loop, or JSON _
   Stout
 ```
 
-### 
+### Configurable attribute
+
+The configurable attribute helps you lock down some property from being changed. It prevents the property from being deleted.
+
+Lets see this in the code
+
+```js
+'use strict';
+
+var beer = {
+  name: 'Guinness',
+  style: 'Stout'
+}
+
+Object.defineProperty(beer, 'style', {configurable: false});
+```
+
+```js
+// try deleting the style property.
+> delete beer.style;
+  Uncaught TypeError: Cannot delete property 'style' of #<Object>
+```
+
+Also, after setting `configurable` attribute to `false` we cannot change the `enumerable` attribute of the object.
+
+```js
+> Object.defineProperty(beer, 'style', {enumerable: false});
+  Uncaught TypeError: Cannot redefine property: style
+```
+
+Interestingly, when once we set `configurable` atribute to `false`, we cannot flip it back to `true`.
+
+```js
+> Object.defineProperty(beer, 'style', {configurable: true});
+  Uncaught TypeError: Cannot redefine property: style
+```
+
+However, note that we can still change the `writable` attribute on the `style` property.
+
+## Getters and Setters in JavaScript
+
+Getters and Setters are properties on an object that allow you to set the value of a property or return the value of property using a function. Thus, allowing for a more secure and robust way of assigning or retrieving values of object properties.
+
+```js
+var beer = {
+  brand: 'Miler',
+  type: 'Lite'
+}
+```
+
+Noe suppose we wanted to retrieve the full name of our `beer` as `'Miller Lite'` we could define a getter as follows,
+
+```js
+var beer = {
+  brand: 'Miller',
+  type: 'Lite'
+}
+
+Object.defineProperty(beer, 'fullBeerName', {
+  get: function() {
+    return `${this.brand} ${this.type}`
+  }
+});
+```
+
+Now let's see if our code works
+
+```js
+> console.log(beer.fullBeerName);
+  Miller Lite
+```
+Well it does :smile:
+
+What if we wanted to do the reverse of what we've done, that we could supply a value such as `'Miller Lite'` and it will set the `brand` property to `'Miller'` and `type` property to `'Lite'`. For this we need to define a setter.
+
+```js
+var beer = {
+  brand: 'Miller',
+  type: 'Lite'
+}
+
+Object.defineProperty(beer, 'fullBeerName', {
+  get: function() {
+    return `${this.brand} ${this.type}`
+  },
+  set: function(str) {
+    var parts = str.split(' ');
+    this.brand = parts[0];
+    this.type = parts[1];
+  }
+});
+```
+
+Let's test this out,
+
+```js
+> beer.fullBeerName = 'Kingfisher Strong';
+> console.log(beer);
+  {brand: "Kingfisher", type: "Strong"}
+```
+
+It seems to work! We just set the `brand` and `type` property using a single assignment to `fullBeerName`.
