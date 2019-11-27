@@ -467,7 +467,7 @@ Object.defineProperty(beers, 'last', {
   Tuborg
 ```
 
-> NOTE: Using declaring and initializing arrays like we have done above by using the square bracket notation is just a simplified syntax for creating an Array using the Array constructor, `var beers = ['Heineken', 'Miller', 'Tuborg'];` is equivalent to `var beers = new Array('Heineken', 'Miller', 'Tuborg');`
+> NOTE: Declaring and initializing arrays like we have done above by using the square bracket notation is just a simplified syntax for creating an Array using the Array constructor, `var beers = ['Heineken', 'Miller', 'Tuborg'];` is equivalent to `var beers = new Array('Heineken', 'Miller', 'Tuborg');`
 
 However, the problem in this approach is, if we decide to define a new array we will need to define the `last` attribute again for that particular array. This approach is not extensible for all arrays.
 
@@ -480,6 +480,7 @@ Object.defineProperty(Array.prototype, 'last', {
   }
 });
 ```
+
 ```js
 > var beers = ['Heineken', 'Miller', 'Tuborg'];
 > console.log(beers.last);
@@ -491,3 +492,30 @@ Object.defineProperty(Array.prototype, 'last', {
 
 Awesome.
 
+### So What is a Prototype?
+
+A prototype is an object that exists on every function in JavaScript. Caution, some convoluted definitions are coming-up. A function's prototype is the object instance that will become the prototype for all objects created using this function as a constructor. An object's prototype is the object instance from which the object is inherited.
+
+Let's have a look at these concepts through code.
+
+```js
+function Beer (name, style) {
+  this.name = name;
+  this.style = style;
+}
+
+var corona = new Beer ('Corona', 'Pale Lager');
+```
+
+```js
+> Beer.prototype
+  {constructor: ƒ}
+
+> corona.__proto__
+  {constructor: ƒ}
+
+> Beer.prototype === corona.__proto__
+  true
+```
+
+In the above example, when we define the constructor function `Beer` a protype object is created. Then we create a `corona` object using the `Beer` constructor function we can see that 
