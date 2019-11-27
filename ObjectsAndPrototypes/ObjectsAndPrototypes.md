@@ -508,14 +508,115 @@ var corona = new Beer ('Corona', 'Pale Lager');
 ```
 
 ```js
-> Beer.prototype
+> Beer.prototype;
   {constructor: ƒ}
 
-> corona.__proto__
+> corona.__proto__;
   {constructor: ƒ}
 
-> Beer.prototype === corona.__proto__
+> Beer.prototype === corona.__proto__;
   true
 ```
 
-In the above example, when we define the constructor function `Beer` a protype object is created. Then we create a `corona` object using the `Beer` constructor function we can see that 
+In the above example, when we define the constructor function `Beer` a protype object is created. Then we create a `corona` object using the `Beer` constructor function we can see that the same prototype object instance is available in the `corona` object (the name of the prototype object instance is `__proto__` in case of the objects created from the constructor).
+
+Let's tinker around with this prototype object.
+
+```js
+Beer.prototype.color = "Golden";
+```
+
+```js
+> Beer.prototype;
+  {color: "Golden", constructor: ƒ}
+
+> corona.__proto__;
+  {color: "Golden", constructor: ƒ}
+
+> corona.color;
+  "Golden"
+
+> var guinness = new Beer('Guinness', 'Stout');
+> guiness.color;
+  "Golden"
+```
+
+We added a new property `color` to `Beer`'s prototype and because the objects created from the `Beer` constructor have the exact same prototype object instance, the changes in function's `prototype` object are reflected in `corona` object's `__proto__` object. Also, we can see another more practical effect of adding a property to the prototype object, we are able to access `color` property from all the objects created through `Beer` constructor using the simple `dot` notation. Let's discuss this in the next section.
+
+### Instance and Prototype properties
+
+Let us code up our previous example real quick
+
+```js
+function Beer (name, style) {
+  this.name = name;
+  this.style = style;
+}
+
+Beer.prototype.color = 'Black';
+
+var guinness = new Beer('Guinness', 'Stout');
+```
+
+Now we'll head to our JavaScript console to draw some insights from the above example
+
+```js
+> guinness.name;
+  "Guinness"
+
+> guinness.style;
+  "Stout"
+
+> guinness.color;
+  "Black"
+```
+
+So far so good, we are getting expected values for all the three properties as we would expect.
+
+Just to be sure, let us list the preperties of the `guinness` object.
+
+```js
+> Object.keys(guinness);
+   ["name", "style"]
+```
+
+Wait what? Where is the `color` property we just accessed it's value. Let's double-check this.
+
+```js
+> guinness.hasOwnProperty('name');  // expected
+  true
+
+> guinness.hasOwnProperty('style'); // expected
+  true
+
+> guinness.hasOwnProperty('color') // Oh! Weird
+  false
+```
+
+```js
+> guinness.__proto__.hasOwnProperty('color'); // Hmmmm
+  true
+```
+
+To explain this, `name` and `style` are the properties of the `guinness` object and are referred to as _Instance properties_, while `color` is a _Prototype property_.
+
+While tryin to access a property of an object (using the `dot` or the `square bracket` notation) the engine first checks if the property we are trying to access is an Instance property, if yes the value of the Instance property is returned. However, when the property is not found in the Instance properties of the object, a look up of Prototype properties is performed, if a corresponding matching property is found, it's value is returned.
+
+Let's see one last example to drive this concept home.
+
+```js
+function Beer (name) {
+  this.name = name;
+}
+
+Beer.prototype.name = 'Kingfisher';
+
+var corona = new Beer('Corona');
+```
+
+```js
+> corona.name;
+  "Corona"
+```
+
+Even though the `name` property is available on the `prototype` it's value is not returned because first a look up of Instance properties is performed, where the property name was found and it's value of `"Corona"` is returned.
