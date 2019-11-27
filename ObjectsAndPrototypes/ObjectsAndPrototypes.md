@@ -467,6 +467,8 @@ Object.defineProperty(beers, 'last', {
   Tuborg
 ```
 
+> NOTE: Using declaring and initializing arrays like we have done above by using the square bracket notation is just a simplified syntax for creating an Array using the Array constructor, `var beers = ['Heineken', 'Miller', 'Tuborg'];` is equivalent to `var beers = new Array('Heineken', 'Miller', 'Tuborg');`
+
 However, the problem in this approach is, if we decide to define a new array we will need to define the `last` attribute again for that particular array. This approach is not extensible for all arrays.
 
 If we define our `last` method on Array's prototype instead of the `beers` array we declared we will be able to achieve the expected behaviour.
