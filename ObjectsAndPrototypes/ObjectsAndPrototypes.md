@@ -1,4 +1,4 @@
-# A Deeper Dive into JavaScript Objects And Prototypes
+# A Deep Dive into JavaScript Objects And Prototypes
 
 For anybody who has been working with JavaScript even on a beginner level, has come across the notion of object in one's code. Remember the first program in JavaScript we wrote, it must have looked like `console.log('Hello World!')`. Where we used the `log` method of the `console` object.
 
@@ -49,7 +49,7 @@ Let's execute this method right away,
   Be happy, Good things come to those who wait.
 ```
 
-Also, deleting properties (or methods) from your object is also very simple with the use of `delete` keyword, let's have a look at it in the code
+Also, deleting properties (or methods) from your object is very simple with the use of `delete` keyword, let's have a look at it in the code
 
 ```js
 var beer = {
@@ -78,11 +78,11 @@ If you are coming from a background in statically typed languages (like I did), 
 what is a beer? I haven't even defined a class beer.
 The thing is, in a dynamically typed language we can skip the whole ceremony of creating the blueprints i.e. the classes or types ahead of time before we their instances aka. the objects.
 
-Just create an object when you need one with the properties and methods you deem necessary. But another powerful feature of JavaScript objects is that you can change the entire shape of the object as and when you feel necessary. We created our `beer` object with two properties, `name` and `style`, later we felt that the `beer` needs to have a color, so we added a `color` property, similarly, we thought it would be good if our `beer` made a person happy, so that's what we did we added a meethod to our object `makePersonHappy`. This dynamic nature allows for more flexibility with less code and constrainsts.
+Just create an object when you need one with the properties and methods you deem necessary. But another powerful feature of JavaScript objects is that you can change the entire shape of the object as and when you feel necessary. We created our `beer` object with two properties, `name` and `style`, later we felt that the `beer` needs to have a color, so we added a `color` property, similarly, we thought it would be good if our `beer` made a person happy, so that's what we did we added a method to our object `makePersonHappy`. This dynamic nature allows for more flexibility with less code and less constrainsts.
 
 Now this may seem fun for small scripts, but, especially after JavaScript has become a mainstay in the server side development ecosystem as well, a burning question is, HOW THE HECK DO I WRITE COMPLEX SYSTEMS ?
 
-We will explore features JavaScrirpt provides to get some of the same benefits you can from  statically typed languages.
+We will explore features JavaScript provides to get some of the same benefits you can from  statically typed languages.
 
 ## Creating Objects
 
@@ -104,7 +104,7 @@ var beer = new Beer();
 
 JavaScript provides a `new` keyword which followed by a function (constructor function) helps us create objects with the desired properties (and methods), without losing the dynamic nature of JavaScript objects. The constructor function is like any other JavaScript function with the first letter of it's name capitalized as a convention.
 
-Let's just take a look at our new `Beer` object. There you can see that our lowercase `beer` variable is now a pointer to a `Beer` object, and that beer is named Guinness and is a Stout. So how exactly did that work? To really understand what is happening here, it's important that you understand what the keyword `this` is in JavaScript. The `this` keyword refers to an object. That object is whatever object is executing the current bit of code. By default, that is the `global` object. In a web browser, that is the `window` object. So when we executed this `Beer` function, what was `this` referring to? It was referring to a new empty object. That's what the `new` keyword does for us. It creates a new empty JavaScript object, sets the context of `this` to that new object, and then calls the Cat function. (If it doesn't make sense, please re-read this paragraph)
+Let's just take a look at our new `Beer` object. There you can see that our lowercase `beer` variable is now a pointer to a `Beer` object, and that beer is named Guinness and is a Stout. So how exactly did that work? To really understand what is happening here, it's important that you understand what the keyword `this` is in JavaScript. The `this` keyword refers to an object. That object is whatever object is executing the current bit of code. By default, that is the `global` object. In a web browser, that is the `window` object. So when we executed this `Beer` function, what was `this` referring to? It was referring to a new empty object. That's what the `new` keyword does for us. It creates a new empty JavaScript object, sets the context of `this` to that new object, and then calls the `Beer` function. (If it doesn't make sense, please re-read this paragraph)
 
 Let's now make out contructor function dynamic enough to create different beers.
 
@@ -146,11 +146,11 @@ var miller = new Beer('Miller', 'American Pilsner');
   Beer {name: "Miller", style: "American Pilsner"}
 ```
 
-ES6 classes offer a relatively cleaner and very similar syntax to create objects which may seem familiar to class declarations in statically types languages.
+ES6 classes offer a relatively cleaner and very similar syntax to create objects which may seem familiar to class declarations in statically typed languages.
 
 ### Using Object.create()
 
-So far we've seen three ways to create JavaScript objects - the object literal, contructor functions and ES6 classes. But there is another way to create objeects and is actually how objects are created under thee hood even when we use the syntactic sugar available in the three ways we saw earlier.
+So far we've seen three ways to create JavaScript objects - the object literal, contructor functions and ES6 classes. But there is another way to create objects and is actually how objects are created under the hood even when we use the syntactic sugar available in the three ways we saw earlier.
 
 ```js
 var guinness = Object.create(Object.prototype, {
@@ -180,7 +180,7 @@ Now all these properties while creating an object using `Object.create()` may se
 
 ## Object Properties
 
-We have already seen creating objects with properties in the previous section, but there's a lot to object properties than it meets thee eye. So far we have discussed accessing object properties with the `dot` notation, but there is an alternative and in some cases an essential construct to access object properties, the `bracket` notation.
+We have already seen creating objects with properties in the previous section, but there's a lot to object properties than it meets the eye. So far we have discussed accessing object properties with the `dot` notation, but there is an alternative and in some cases an essential construct to access object properties, the `bracket` notation.
 
 ```js
 var beer = {
@@ -251,7 +251,7 @@ Now, in the output, we can see in addition to the property haaving a value, it a
 
 The writable attribute controls wether we can change the value of the property from the initial value.
 
-For demonstrating this behaviour we are going to use the JavaScript [strict mode](https://dev.to/ashubhadoria7/hey-alice-what-s-the-big-deal-about-the-javascript-s-strict-mode-24bb), and we are going to use `Object.defineProperty()` whicj defines a new property directly on an object, or modifies an existing property on an object, and returns the object.
+For demonstrating this behaviour we are going to use the JavaScript [strict mode](https://dev.to/ashubhadoria7/hey-alice-what-s-the-big-deal-about-the-javascript-s-strict-mode-24bb), and we are going to use `Object.defineProperty()` which defines a new property directly on an object, or modifies an existing property on an object, and returns the object.
 
 Consider our object `beer`
 
@@ -276,7 +276,7 @@ Object.defineProperty(beer, 'style', {writable: false});
 
 As expected trying to reassign a new value to `style` property results in a `TypeError` being thrown.
 
-A word of caution the key concept here is we will not bee able to REDECLARE a property. So if in case, the property is an object, we can still modify that object, but we cannot set it to other object.
+A word of caution the key concept here is we will not be able to REDECLARE a property. So if in case, the property is an object, we can still modify that object, but we cannot set it to other object.
 
 ```js
 'use strict';
@@ -297,7 +297,7 @@ beer.placeOfOrigin = {city: 'Moscow', country: 'Russia'}; // throws TypeError
 
 ### Enumerable Attribute
 
-Whenever we want to list or print all the properties of an object we just throw in a good ol' `for...in` loop. y default, properties on an object are enumerable, meaning we can loop over them using a `for…in` loop. But we can change that. Let's set `enumerable` to `false` for the style property.
+Whenever we want to list or print all the properties of an object we just throw in a good ol' `for...in` loop. By default, properties on an object are enumerable, meaning we can loop over them using a `for…in` loop. But we can change that. Let's set `enumerable` to `false` for the style property.
 
 ```js
 'use strict';
@@ -375,7 +375,7 @@ Also, after setting `configurable` attribute to `false` we cannot change the `en
   Uncaught TypeError: Cannot redefine property: style
 ```
 
-Interestingly, when once we set `configurable` atribute to `false`, we cannot flip it back to `true`.
+Interestingly, once we set `configurable` atribute to `false`, we cannot flip it back to `true`.
 
 ```js
 > Object.defineProperty(beer, 'style', {configurable: true});
@@ -395,7 +395,7 @@ var beer = {
 }
 ```
 
-Noe suppose we wanted to retrieve the full name of our `beer` as `'Miller Lite'` we could define a getter as follows,
+Now suppose we wanted to retrieve the full name of our `beer` as `'Miller Lite'` we could define a getter as follows,
 
 ```js
 var beer = {
@@ -494,7 +494,7 @@ Awesome.
 
 ### So What is a Prototype?
 
-A prototype is an object that exists on every function in JavaScript. Caution, some convoluted definitions are coming-up. A function's prototype is the object instance that will become the prototype for all objects created using this function as a constructor. An object's prototype is the object instance from which the object is inherited.
+A prototype is an object that exists on every function in JavaScript. Caution, some convoluted definitions are coming up. A function's prototype is the object instance that will become the prototype for all objects created using this function as a constructor. An object's prototype is the object instance from which the object is inherited.
 
 Let's have a look at these concepts through code.
 
@@ -509,10 +509,10 @@ var corona = new Beer ('Corona', 'Pale Lager');
 
 ```js
 > Beer.prototype;
-  constructor: ƒ Beer(name)
+  Beer {}
 
 > corona.__proto__;
-  constructor: ƒ Beer(name)
+  Beer {}
 
 > Beer.prototype === corona.__proto__;
   true
@@ -528,12 +528,12 @@ Beer.prototype.color = "Golden";
 
 ```js
 > Beer.prototype;
-  {color: "Golden", constructor: ƒ Beer(name)}
+  Beer { color: 'golden' }
 
 > corona.__proto__;
-  {color: "Golden", constructor: ƒ Beer(name)}
+  Beer { color: 'golden' }
 
-> corona.color;
+> console.log(corona.color);
   "Golden"
 
 > var guinness = new Beer('Guinness', 'Stout');
@@ -561,19 +561,19 @@ var guinness = new Beer('Guinness', 'Stout');
 Now we'll head to our JavaScript console to draw some insights from the above example
 
 ```js
-> guinness.name;
+> (console.log(guinness.name);
   "Guinness"
 
-> guinness.style;
+> console.log(guinness.style);
   "Stout"
 
-> guinness.color;
+> console.log(guinness.color);
   "Black"
 ```
 
-So far so good, we are getting expected values for all the three properties as we would expect.
+So far so good, we are getting expected values for all the three properties.
 
-Just to be sure, let us list the preperties of the `guinness` object.
+Just to be sure, let us list the properties of the `guinness` object.
 
 ```js
 > Object.keys(guinness);
@@ -600,7 +600,7 @@ Wait what? Where is the `color` property we just accessed it's value. Let's doub
 
 To explain this, `name` and `style` are the properties of the `guinness` object and are referred to as _Instance properties_, while `color` is a _Prototype property_.
 
-While tryin to access a property of an object (using the `dot` or the `square bracket` notation) the engine first checks if the property we are trying to access is an Instance property, if yes the value of the Instance property is returned. However, when the property is not found in the Instance properties of the object, a look up of Prototype properties is performed, if a corresponding matching property is found, it's value is returned.
+While trying to access a property of an object (using the `dot` or the `square bracket` notation) the engine first checks if the property we are trying to access is an Instance property, if yes the value of the Instance property is returned. However, when the property is not found in the Instance properties of the object, a look up of Prototype properties is performed, if a corresponding matching property is found, it's value is returned.
 
 Let's see one last example to drive this concept home.
 
@@ -615,11 +615,11 @@ var corona = new Beer('Corona');
 ```
 
 ```js
-> corona.name;
+> console.log(corona.name);
   "Corona"
 ```
 
-Even though the `name` property is available on the `prototype` it's value is not returned because first a look up of Instance properties is performed, where the property name was found and it's value of `"Corona"` is returned.
+Even though the `name` property is available on the `prototype` it's value is not returned because first a look up of Instance properties is performed, where the property `name` was found and it's value of `"Corona"` is returned.
 
 
 ## Multiple Levels of Inheritance
@@ -632,18 +632,18 @@ function Beer (name) {
 var corona = new Beer('Corona');
 ```
 
-We know that now that `corona` has a prototype and that it was created from the `Beer` function, as can be seen here.
+We know now, that `corona` has a prototype and that it was created from the `Beer` function, as can be seen here.
 
 ```js
 > corona.__proto__;
-  constructor: ƒ Beer(name)
+  Beer {}
 ```
 
 But on close inspection we will see that the the `Beer` prototype also has a prototype.
 
 ```js
 > corona.__proto__.__proto__;
-  constructor: ƒ Object()
+  Object {}    // maybe represented as `{}` in some environments
 ```
 
 This indicated that `Beer` objects inherit from `Object`. Let us try going up the prototype chain.
@@ -655,3 +655,161 @@ This indicated that `Beer` objects inherit from `Object`. Let us try going up th
 
 Looks like we've hit the roof. So to conclude this discussion, by default, all objects in JavaScript inherit from `Object`. And `Object` has no prototype. So almost all objects that we work with have some type of prototypal inheritance chain like this.
 
+### Creating Prototypal Inheritance Chains
+
+To create complex systems it is often essential we think of in terms of creating ample abstractions to make the system design cleaner, robust and reusable.
+
+Let us try to create an abstraction for our `Beer` class, let us say `Beer` is a type of `Beverage`, and the `Beverage` happens to make people happy. So, we add a method to `Beverage`'s prototype `makePersonHappy()`. Now `Beer` being a `Beverage` should also be able to make people happy, right? Let us see how we can achieve this
+
+```js
+function Beverage() {
+}
+
+Beverage.prototype.makePersonHappy = function () {
+  console.log('You are feeling so good!');
+}
+
+function Beer (name, style) {
+  this.name = name;
+  this.style = style;
+}
+
+Beer.prototype = Object.create(Beverage.prototype);
+
+var guinness = new Beer('Guinness', 'Stout');
+```
+
+Let's see if `guinness` can make a person happy.
+
+```js
+> guinness.makePersonHappy();
+  "You are feeling so good!"
+```
+
+So what happened was, when we defined the method `makePersonHappy()` on `Beverage`'s prototype, every object created from the `Beverage` function would have this method. If you look closely at the line of code 
+
+```js
+Beer.prototype = Object.create(Beverage.prototype);
+```
+
+This sets up a prototype chain from `Beer` to it's parent `Beverage` and therefore we are able to access the method `makePersonHappy()`. Let's verify this claim
+
+```js
+> console.log(guinness.__proto__.__proto__);
+  Beverage { makePersonHappy: [Function] }
+```
+
+There is, however, one discrepancy here, let's print the `guinness` object.
+
+```js
+> console.log(guinness);
+  Beverage { name: 'Guinness', style: 'Stout' }
+```
+
+Here the object `guinness` has `Beverage` as it's constructor, but we created this object using `Beer` function. Turns out we had overwritten the `constructor` property of the `Beer`'s prototype when we established the prototype chain. This can be easily amended by explicitly setting the `constructor` property of the prototype.
+
+```js
+Beer.prototype = Object.create(Beverage.prototype);
+// explicitly setting the constructor
+Beer.prototype.constructor = Beer;
+```
+
+Now, let's go to the console to verify this
+
+```js
+> console.log(guinness);
+  Beer { name: 'Guinness', style: 'Stout' }
+```
+
+A lot of times we may decide to change some default behaviour provided by the parent to better suit the design of the system. Here we will try to override the message shown in `makePersonHappy()` method provided by the `Beverage`. Let us use every thing we have covered in this sub-section.
+
+```js
+function Beverage (message) {
+  this.message = message || 'You are feeling so good!';
+}
+
+Beverage.prototype.makePersonHappy = function () {
+  console.log(this.message);
+}
+
+function Beer (name, style) {
+  // Call Beverage constructor
+  Beverage.call(this, 'You have never felt better before!');
+  this.name = name;
+  this.style = style;
+}
+
+// Set prototype chain
+Beer.prototype = Object.create(Beverage.prototype);
+// Explicitly set constructor
+Beer.prototype.constructor = Beer;
+
+var guinness = new Beer('Guinness', 'Stout');
+```
+
+In order to call the `Beverage` constructor we use the JavaScript's `call` method which calls a function with a given `this` value and arguments provided individually. This is done to take care of any initializations that we intended to do  in the parent class, in this case we want to display a custom message from the `makePersonHappy()` method.
+
+Let's verify if everything works fine.
+
+```js
+> guinness.makePersonHappy();
+  "You have never felt better before!"
+
+> guinness;
+  Beer {
+    message: 'You have never felt better before!',
+    name: 'Guinness',
+    style: 'Stout'
+  }
+```
+
+### Using Class Syntax to Create Prototype Chains
+
+The way to achieve prototypal inheritance using the moden ES6 class syntax is very similar and perhaps more cleaner than what we have seen. Recall how in an earlier section we created objects from classes, let's apply those concepts here.
+
+```js
+class Beverage {
+  constructor (message) {
+    this.message = message || 'You are feeling so good!';
+  }
+
+  makePersonHappy () {
+    console.log(this.message);
+  }
+}
+
+// Set up inheritance chain
+class Beer extends Beverage {
+  constructor (name, style) {
+    // Call constructor of parent class
+    super('You have never felt better before!');
+    this.name = name;
+    this.style = style;
+  }
+}
+
+var guinness = new Beer('Guinness', 'Stout');
+```
+
+Here we use the `extends` keyword to set up the inheritance chain, and used the `super` keyword to call parent class' constructor.
+Let's test this out.
+
+```js
+> guinness.makePersonHappy();
+  "You have never felt better before!"
+
+> console.log(guinness);
+  Beer {
+    message: 'You have never felt better before!',
+    name: 'Guinness',
+    style: 'Stout'
+  }
+```
+
+Note that here we did not have to explicitly set the constructor of the `Beer`'s prototype.
+
+## Summary
+
+With this deeper understanding, we'll be able to create powerful and well-structured applications that take advantage of the dynamic power of JavaScript to create real-world apps tackling complexity and standing the test of the harsh production-environments.
+
+Happy coding :sunglasses:
