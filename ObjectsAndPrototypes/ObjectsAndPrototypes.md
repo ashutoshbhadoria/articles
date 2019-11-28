@@ -509,10 +509,10 @@ var corona = new Beer ('Corona', 'Pale Lager');
 
 ```js
 > Beer.prototype;
-  {constructor: ƒ}
+  constructor: ƒ Beer(name)
 
 > corona.__proto__;
-  {constructor: ƒ}
+  constructor: ƒ Beer(name)
 
 > Beer.prototype === corona.__proto__;
   true
@@ -528,10 +528,10 @@ Beer.prototype.color = "Golden";
 
 ```js
 > Beer.prototype;
-  {color: "Golden", constructor: ƒ}
+  {color: "Golden", constructor: ƒ Beer(name)}
 
 > corona.__proto__;
-  {color: "Golden", constructor: ƒ}
+  {color: "Golden", constructor: ƒ Beer(name)}
 
 > corona.color;
   "Golden"
@@ -620,3 +620,38 @@ var corona = new Beer('Corona');
 ```
 
 Even though the `name` property is available on the `prototype` it's value is not returned because first a look up of Instance properties is performed, where the property name was found and it's value of `"Corona"` is returned.
+
+
+## Multiple Levels of Inheritance
+
+```js
+function Beer (name) {
+  this.name = name;
+}
+
+var corona = new Beer('Corona');
+```
+
+We know that now that `corona` has a prototype and that it was created from the `Beer` function, as can be seen here.
+
+```js
+> corona.__proto__;
+  constructor: ƒ Beer(name)
+```
+
+But on close inspection we will see that the the `Beer` prototype also has a prototype.
+
+```js
+> corona.__proto__.__proto__;
+  constructor: ƒ Object()
+```
+
+This indicated that `Beer` objects inherit from `Object`. Let us try going up the prototype chain.
+
+```js
+> corona.__proto__.__proto__.__proto__;
+  null
+```
+
+Looks like we've hit the roof. So to conclude this discussion, by default, all objects in JavaScript inherit from `Object`. And `Object` has no prototype. So almost all objects that we work with have some type of prototypal inheritance chain like this.
+
